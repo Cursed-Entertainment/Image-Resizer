@@ -1,53 +1,36 @@
+from PIL import Image
 import os
-import subprocess
 
-def main():
-    print("Python Project")
-
-    scripts = {
-        "1": {
-            "name": "Run 'Script00'",
-            "description": "This is Script01",
-            "file_name": "script00.py"
-        },
-        "2": {
-            "name": "Run 'Script01",
-            "description": "This is Script01",
-            "file_name": "script01.py"
-        },
-        "00": {
-            "name": "Run 'Install Dependencies'",
-            "description": "Install dependencies",
-            "file_name": "install_dependencies.py"
-        },
-    }
-
-    current_script_dir = os.path.dirname(os.path.abspath(__file__))
-
-    while True:
-        print("\nAvailable Scripts:")
-        for key, script_info in scripts.items():
-            print(f"{key}: {script_info['name']} - {script_info['description']}")
-        
-        user_choice = input("Enter the number of the script you want to run (or 'q' to quit): ").strip()
-        
-        if user_choice == 'q':
-            break
-        
-        if user_choice in scripts:
-            selected_script = scripts[user_choice]
-            script_file_name = selected_script["file_name"]
-            script_file_path = os.path.join(current_script_dir, script_file_name)
+def custom_resize(input_path, output_path, dimensions=(512, 512)):
+    try:
+        # Open the image file
+        with Image.open(input_path) as img:
+            # Resize the image
+            resized_img = img.resize(dimensions, Image.LANCZOS)  
             
-            if os.path.exists(script_file_path):
-                try:
-                    subprocess.run(["python", script_file_path])
-                except Exception as e:
-                    print(f"An error occurred while running the script: {e}")
-            else:
-                print(f"Script file '{script_file_name}' does not exist.")
-        else:
-            print("Invalid choice. Please select a valid script number.")
+            # Save the resized image
+            resized_img.save(output_path)
+            
+            print(f"Image successfully resized and saved to {output_path}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def batch_resize_images(input_dir, output_dir, dimensions=(512, 512)):
+    # Create output directory if it doesn't exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Loop through all files in the input directory
+    for filename in os.listdir(input_dir):
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
+            input_path = os.path.join(input_dir, filename)
+            output_path = os.path.join(output_dir, filename)
+            custom_resize(input_path, output_path, dimensions)
 
 if __name__ == "__main__":
-    main()
+    input_directory = "." 
+    output_directory = "resized_images"
+    
+    # Resize all images in the current directory
+    batch_resize_images(input_directory, output_directory)
