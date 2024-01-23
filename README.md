@@ -1,4 +1,4 @@
-# Cursed-Python-Template
+# Image-Resizer
 
 
 ```bash
