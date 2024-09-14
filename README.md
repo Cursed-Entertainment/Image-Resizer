@@ -4,7 +4,9 @@
 ```bash
 pip install -r requirements.txt
 ```
-
+<div align="center">
+© Cursed Entertainment 2024
+</div>
 <br>
 <div align="center">
 <a href="https://github.com/CursedPrograms" target="_blank">
