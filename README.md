@@ -5,7 +5,7 @@
 pip install -r requirements.txt
 ```
 <div align="center">
-© Cursed Entertainment 2024
+Cursed Entertainment 2024
 </div>
 <br>
 <div align="center">
